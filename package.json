@@ -1,0 +1,114 @@
+{
+  "name": "@agentofuser/remark-oembed",
+  "version": "1.0.3",
+  "description": "oembed things",
+  "license": "MIT",
+  "keywords": [
+    "remark",
+    "remark-plugin",
+    "markdown",
+    "plugin",
+    "embed",
+    "oembed",
+    "youtube"
+  ],
+  "repository": "agentofuser/remark-oembed",
+  "bugs": "https://github.com/agentofuser/remark-oembed/issues",
+  "author": "Agent of User <git@agentofuser.com> (https://agentofuser.com)",
+  "contributors": [
+    "Agent of User <git@agentofuser.com> (https://agentofuser.com)"
+  ],
+  "main": "dist/index.js",
+  "umd:main": "dist/remark-oembed.umd.production.js",
+  "module": "dist/remark-oembed.es.production.js",
+  "typings": "dist/index.d.ts",
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "build": "tsdx build",
+    "commit": "git-cz",
+    "commit:retry": "git-cz --retry",
+    "semantic-release": "semantic-release",
+    "start": "tsdx watch",
+    "test": "tsdx test"
+  },
+  "release": {
+    "plugins": [
+      "@semantic-release/commit-analyzer",
+      "@semantic-release/release-notes-generator",
+      "@semantic-release/npm",
+      "@semantic-release/github",
+      "@semantic-release/git"
+    ]
+  },
+  "commitlint": {
+    "extends": [
+      "@commitlint/config-conventional"
+    ],
+    "rules": {
+      "header-max-length": [
+        2,
+        "always",
+        50
+      ],
+      "body-max-line-length": [
+        2,
+        "always",
+        72
+      ],
+      "footer-max-line-length": [
+        2,
+        "always",
+        72
+      ],
+      "scope-empty": [
+        2,
+        "never"
+      ]
+    }
+  },
+  "config": {
+    "commitizen": {
+      "path": "cz-conventional-changelog"
+    }
+  },
+  "peerDependencies": {},
+  "husky": {
+    "hooks": {
+      "pre-commit": "pretty-quick --staged"
+    }
+  },
+  "prettier": {
+    "printWidth": 79,
+    "semi": false,
+    "singleQuote": true,
+    "trailingComma": "es5",
+    "proseWrap": "always"
+  },
+  "devDependencies": {
+    "@commitlint/cli": "^7.6.1",
+    "@commitlint/config-conventional": "^7.6.0",
+    "@commitlint/travis-cli": "^7.6.1",
+    "@semantic-release/commit-analyzer": "^6.1.0",
+    "@semantic-release/git": "^7.0.8",
+    "@semantic-release/github": "^5.2.10",
+    "@semantic-release/npm": "^5.1.7",
+    "@semantic-release/release-notes-generator": "^7.1.4",
+    "@types/jest": "^24.0.13",
+    "commitizen": "^3.1.1",
+    "cz-conventional-changelog": "^2.1.0",
+    "husky": "^2.3.0",
+    "prettier": "^1.17.1",
+    "pretty-quick": "^1.11.0",
+    "rehype": "^7.0.0",
+    "semantic-release": "^15.13.12",
+    "tsdx": "^0.5.11",
+    "tslib": "^1.9.3",
+    "typescript": "^3.4.5"
+  },
+  "dependencies": {
+    "hast-util-heading": "^1.0.2",
+    "hastscript": "^5.0.0"
+  }
+}
