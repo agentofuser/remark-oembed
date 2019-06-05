@@ -1,6 +1,6 @@
 {
   "name": "@agentofuser/remark-oembed",
-  "version": "0.0.0-development",
+  "version": "1.0.0",
   "description": "oembed things",
   "license": "MIT",
   "keywords": [
