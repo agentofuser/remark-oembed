@@ -1,5 +1,8 @@
 {
   "name": "@agentofuser/remark-oembed",
+  "publishConfig": {
+    "access": "public"
+  },
   "version": "1.0.0",
   "description": "oembed things",
   "license": "MIT",
