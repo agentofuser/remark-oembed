@@ -1,59 +1,36 @@
-import h from 'hastscript'
-import isHeading from 'hast-util-heading'
+import {
+  getProviderEndpointForLinkUrl,
+  fetchOembed,
+  transformLinkNodeToOembedNode,
+  fetchOembedProviders,
+  selectPossibleOembedLinkNodes,
+} from './utils'
 
-function parseDepth(str: string) {
-  return parseInt(str[1], 10)
-}
-
-function wDepth(div: any) {
-  const divClassNames = div.properties.className
-  const divDepth = parseDepth(divClassNames[0])
-  return divDepth
-}
-
-function w(depth: number, children: any[]) {
-  return h(`section.h${depth}Wrapper.headingWrapper`, children)
-}
-
-function transformer(tree: any, _: any) {
-  const rootChildren = tree.children
-
-  const rootWrapper = w(0, [])
-  let wrapperStack: any[] = []
-  wrapperStack.push(rootWrapper)
-
-  function currentWrapper() {
-    return wrapperStack[wrapperStack.length - 1]
-  }
-
-  function currentWrapperDepth() {
-    return wDepth(currentWrapper())
-  }
-
-  for (let elem of rootChildren) {
-    if (isHeading(elem)) {
-      const elemDepth = parseDepth(elem.tagName)
-      // Child heading
-      if (elemDepth > currentWrapperDepth()) {
-        const childWrapper = w(elemDepth, [elem])
-        currentWrapper().children.push(childWrapper)
-        wrapperStack.push(childWrapper)
-      }
-      // Delimiting heading
-      else if (elemDepth <= currentWrapperDepth()) {
-        while (elemDepth <= currentWrapperDepth()) {
-          wrapperStack.pop()
-        }
-        const siblingWrapper = w(elemDepth, [elem])
-        currentWrapper().children.push(siblingWrapper)
-        wrapperStack.push(siblingWrapper)
-      }
-    } else {
-      currentWrapper().children.push(elem)
+// For each node this is the process
+const processNode = async (node: { url: string }, providers = []) => {
+  let mutatedNode = node
+  try {
+    const endpoint = getProviderEndpointForLinkUrl(node.url, providers)
+    if (endpoint.url) {
+      const oembedResponse = await fetchOembed(endpoint)
+      mutatedNode = transformLinkNodeToOembedNode(node, oembedResponse)
     }
+  } catch (error) {
+    error.url = node.url
+    throw error
   }
+  return mutatedNode
+}
 
-  return rootWrapper
+async function transformer(tree: any, _file: any) {
+  const providers = await fetchOembedProviders()
+
+  const usePrefix = false
+  const nodes = selectPossibleOembedLinkNodes(tree, usePrefix)
+
+  await Promise.all(nodes.map(node => processNode(node, providers)))
+
+  return tree
 }
 
 function attacher() {

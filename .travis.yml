@@ -1,9 +1,9 @@
 language: node_js
 
 node_js:
-  - 12
-  - 10
-  - 8
+  - '12'
+  - '10'
+  - '8'
 
 jobs:
   include:
@@ -17,5 +17,4 @@ jobs:
       deploy:
         provider: script
         skip_cleanup: true
-        script:
-          - npx semantic-release
+        script: 'npx semantic-release'

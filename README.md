@@ -2,48 +2,44 @@
 
 [![Downloads][downloads-badge]][downloads] [![Chat][chat-badge]][chat]
 
-Wraps headings and their contents in `<section>` elements.
+Converts URLs surrounded by newlines into embeds.
+
+The important part of this code is taken directly from
+[Benedicte Raae](https://www.raae.codes/)'s excellent
+[gatsby-remark-oembed](https://github.com/raae/gatsby-remark-oembed) plugin, so
+thank you very much @raae 🙏
 
 ## Installation
 
-[npm][]:
+[yarn][]:
 
 ```bash
-npm install @agentofuser/remark-oembed
+yarn add @agentofuser/remark-oembed
 ```
 
 ## Usage
 
-Say we have the following file, `fragment.html`:
+Say we have the following file, `demo.md`:
 
 <!-- prettier-ignore -->
-```html
-<h1>h1</h1>
-  <h2>h2a</h2>
-    <h3>h3ai</h3>
-      <p>text3ai</p>
-    <h3>h3aj</h3>
-      <p>text3aj</p>
-  <h2>h2b</h2>
-    <h3>h3bi</h3>
-      <h4>h4bix</h4>
-        <p>text4bix</p>
-  <h2>h2c</h2>
-    <h3>h3ci</h3>
-      <p>text3ci</p>
+```markdown
+Hey this is a nice youtube video about making modern react apps with gatsby:
+
+https://www.youtube.com/watch?v=GN0xHSk2P8Q
+
+Check it out 👆
 ```
 
 And our script, `example.js`, looks as follows:
 
 ```javascript
 var fs = require('fs')
-var rehype = require('rehype')
-var section = require('remark-oembed')
+var remark = require('remark')
+var oembed = require('@agentofuser/remark-oembed')
 
-rehype()
-  .data('settings', { fragment: true })
-  .use(section)
-  .process(fs.readFileSync('fragment.html'), function(err, file) {
+remark()
+  .use(oembed)
+  .process(fs.readFileSync('demo.md'), function(err, file) {
     if (err) throw err
     console.log(String(file))
   })
@@ -51,52 +47,34 @@ rehype()
 
 Now, running `node example` yields:
 
-<!-- prettier-ignore -->
-```html
-<section class="h0Wrapper headingWrapper">
-  <section class="h1Wrapper headingWrapper">
-    <h1>h1</h1>
-    <section class="h2Wrapper headingWrapper">
-      <h2>h2a</h2>
-      <section class="h3Wrapper headingWrapper">
-        <h3>h3ai</h3>
-        <p>text3ai</p>
-      </section>
-      <section class="h3Wrapper headingWrapper">
-        <h3>h3aj</h3>
-        <p>text3aj</p>
-      </section>
-    </section>
-    <section class="h2Wrapper headingWrapper">
-      <h2>h2b</h2>
-      <section class="h3Wrapper headingWrapper">
-        <h3>h3bi</h3>
-        <section class="h4Wrapper headingWrapper">
-          <h4>h4bix</h4>
-          <p>text4bix</p>
-        </section>
-      </section>
-    </section>
-    <section class="h2Wrapper headingWrapper">
-      <h2>h2c</h2>
-      <section class="h3Wrapper headingWrapper">
-        <h3>h3ci</h3>
-        <p>text3ci</p>
-      </section>
-    </section>
-  </section>
-</section>
+```markdown
+Hey this is a nice youtube video about making modern react apps with gatsby:
+
+<iframe 
+  width="480" 
+  height="270" 
+  src="https://www.youtube.com/embed/GN0xHSk2P8Q?feature=oembed" 
+  frameborder="0" 
+  allow="accelerometer; 
+    autoplay; 
+    encrypted-media; 
+    gyroscope; 
+    picture-in-picture" 
+  allowfullscreen>
+</iframe>
+
+Check it out 👆
 ```
 
 ## API
 
-### `rehype().use(section)`
+### `remark().use(oembed)`
 
-Wraps headings and their contents in `<section>` elements.
+Converts URLs surrounded by newlines into embeds.
 
 ## Contribute
 
-See [`contributing.md` in `rehypejs/rehype`][contribute] for ways to get
+See [`contributing.md` in `remarkjs/remark`][contribute] for ways to get
 started.
 
 This organisation has a [Code of Conduct][coc]. By interacting with this
@@ -114,10 +92,10 @@ repository, organisation, or community you agree to abide by its terms.
 [downloads]: https://www.npmjs.com/package/@agentofuser/remark-oembed
 [chat-badge]:
   https://img.shields.io/badge/join%20the%20community-on%20spectrum-7b16ff.svg
-[chat]: https://spectrum.chat/unified/rehype
-[npm]: https://docs.npmjs.com/cli/install
-[license]: license
+[chat]: https://spectrum.chat/unified/remark
+[yarn]: https://yarnpkg.com/en/docs/install
+[license]: LICENSE.md
 [author]: https://agentofuser.com
-[rehype]: https://github.com/rehypejs/rehype
-[contribute]: https://github.com/rehypejs/rehype/blob/master/contributing.md
-[coc]: https://github.com/rehypejs/rehype/blob/master/code-of-conduct.md
+[remark]: https://github.com/remarkjs/remark
+[contribute]: https://github.com/remarkjs/remark/blob/master/contributing.md
+[coc]: https://github.com/remarkjs/remark/blob/master/code-of-conduct.md
