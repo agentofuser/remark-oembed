@@ -7,7 +7,7 @@ Converts URLs surrounded by newlines into embeds.
 The important part of this code is taken directly from
 [Benedicte Raae](https://www.raae.codes/)'s excellent
 [gatsby-remark-oembed](https://github.com/raae/gatsby-remark-oembed) plugin, so
-thank you very much @raae 🙏
+thank you very much [@raae](https://github.com/raae) 🙏
 
 ## Installation
 
